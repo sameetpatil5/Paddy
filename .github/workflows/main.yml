@@ -27,11 +27,7 @@ jobs:
 
     - name: ✅ Run a simple test
       run: |
-        echo "from fastapi.testclient import TestClient" > test_paddy.py
-        echo "from main import app" >> test_paddy.py
-        echo "client = TestClient(app)" >> test_paddy.py
-        echo "def test_root(): assert client.get('/').status_code == 200" >> test_paddy.py
-        python -m pytest test_paddy.py
+        pytest tests/
 
     - name: 🐳 Build Docker image
       run: docker build -t paddy:latest .
