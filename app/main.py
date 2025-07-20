@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import StreamingResponse
-from modules.extract_images import paddy_extract_images
-from modules.merge_pdfs import paddy_merge_pdfs
+from app.modules.extract_images import paddy_extract_images
+from app.modules.merge_pdfs import paddy_merge_pdfs
 from typing import List
 import io
 
