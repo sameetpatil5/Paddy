@@ -2,8 +2,11 @@
 
 import io
 import zipfile
+from PIL import Image
+
 import fitz  # PyMuPDF
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 client = TestClient(app)
@@ -76,3 +79,31 @@ def test_merge_pdfs():
     doc = fitz.open(stream=merged_stream, filetype="pdf")
     assert len(doc) == 3
     doc.close()
+
+
+def test_image_to_pdf():
+    img = Image.new("RGB", (100, 100), color="red")
+    img_bytes = io.BytesIO()
+    img.save(img_bytes, format="PNG")
+    img_bytes.seek(0)
+
+    files = {"files": ("red.png", img_bytes, "image/png")}
+    response = client.post("/image-to-pdf", files=files)
+
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert "attachment; filename=output.pdf" in response.headers["content-disposition"]
+    assert len(response.content) > 100
+
+
+def test_markdown_to_pdf():
+    md_text = "# Hello\nThis is **bold** text."
+    data = {"text": md_text}
+    response = client.post("/markdown-to-pdf", json=data)
+
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert (
+        "attachment; filename=markdown.pdf" in response.headers["content-disposition"]
+    )
+    assert len(response.content) > 100
