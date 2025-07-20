@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: paddy-backend
+    runtime: docker
+    plan: free
+    region: frankfurt  
+    branch: main    
+    rootDir: .      
+    dockerContext: . 
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
