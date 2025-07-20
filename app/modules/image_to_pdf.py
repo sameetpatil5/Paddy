@@ -5,19 +5,18 @@ from fastapi import UploadFile
 from typing import List
 import io
 
-
 async def paddy_image_to_pdf(files: List[UploadFile]) -> io.BytesIO:
-    pdf_doc = fitz.open()
+    output_pdf = fitz.open()
     for file in files:
         image_data = await file.read()
-        img_pdf = fitz.open(
-            "pdf", fitz.Pixmap(fitz.open(stream=image_data, filetype="image"))
-        )
-        pdf_doc.insert_pdf(img_pdf)
+        img_doc = fitz.open("png", image_data)
+        pdf_bytes = img_doc.convert_to_pdf()
+        img_pdf = fitz.open("pdf", pdf_bytes)
+        output_pdf.insert_pdf(img_pdf)
         img_pdf.close()
-
+        img_doc.close()
     output = io.BytesIO()
-    pdf_doc.save(output)
-    pdf_doc.close()
+    output_pdf.save(output)
+    output_pdf.close()
     output.seek(0)
     return output

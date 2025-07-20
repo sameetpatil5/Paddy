@@ -82,12 +82,12 @@ def test_merge_pdfs():
 
 
 def test_image_to_pdf():
-    img = Image.new("RGB", (100, 100), color="red")
-    img_bytes = io.BytesIO()
-    img.save(img_bytes, format="PNG")
-    img_bytes.seek(0)
+    image = Image.new("RGB", (100, 100), color="red")
+    image_bytes = io.BytesIO()
+    image.save(image_bytes, format="PNG")
+    image_bytes.seek(0)
 
-    files = {"files": ("red.png", img_bytes, "image/png")}
+    files = {"files": ("test.png", image_bytes, "image/png")}
     response = client.post("/image-to-pdf", files=files)
 
     assert response.status_code == 200
