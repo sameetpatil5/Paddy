@@ -8,6 +8,8 @@ from fastapi import APIRouter
 
 from app.modules.extract_images import paddy_extract_images
 from app.modules.merge_pdfs import paddy_merge_pdfs
+from app.modules.image_to_pdf import paddy_image_to_pdf
+from app.modules.markdown_to_pdf import paddy_markdown_to_pdf
 
 router = APIRouter()
 
@@ -36,3 +38,22 @@ async def merge_pdfs(files: List[UploadFile] = File(...)):
         headers={"Content-Disposition": "attachment; filename=merged.pdf"},
     )
 
+
+@router.post("/image-to-pdf")
+async def image_to_pdf(files: List[UploadFile] = File(...)):
+    output = await paddy_image_to_pdf(files)
+    return StreamingResponse(
+        output,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=images.pdf"},
+    )
+
+
+@router.post("/markdown-to-pdf")
+async def markdown_to_pdf(content: str = Form(...)):
+    output = await paddy_markdown_to_pdf(content)
+    return StreamingResponse(
+        output,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=markdown.pdf"},
+    )
