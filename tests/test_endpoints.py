@@ -92,14 +92,14 @@ def test_image_to_pdf():
 
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/pdf"
-    assert "attachment; filename=output.pdf" in response.headers["content-disposition"]
+    assert "attachment; filename=images.pdf" in response.headers["content-disposition"]
     assert len(response.content) > 100
 
 
 def test_markdown_to_pdf():
     md_text = "# Hello\nThis is **bold** text."
-    data = {"text": md_text}
-    response = client.post("/markdown-to-pdf", json=data)
+    data = {"content": md_text}
+    response = client.post("/markdown-to-pdf", data=data)
 
     assert response.status_code == 200
     assert response.headers["content-type"] == "application/pdf"
