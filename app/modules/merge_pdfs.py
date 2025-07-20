@@ -1,4 +1,4 @@
-# modules/merge_pdfs.py
+# app/modules/merge_pdfs.py
 
 import io
 import fitz  # PyMuPDF

@@ -1,4 +1,4 @@
-# modules/extract_images.py
+# app/modules/extract_images.py
 
 import io
 import zipfile
