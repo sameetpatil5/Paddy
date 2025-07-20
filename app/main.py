@@ -10,7 +10,7 @@ app = FastAPI(title="Paddy: PDF Tools API")
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to Paddy PDF API"}
+    return {"message": "Paddy says Hello!"}
 
 
 @app.post("/extract-images")
