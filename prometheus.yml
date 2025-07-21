@@ -5,4 +5,4 @@ scrape_configs:
   - job_name: 'paddy'
     metrics_path: /metrics
     static_configs:
-      - targets: ['https://paddy-backend-b2z6.onrender.com']
+      - targets: ['paddy-backend-b2z6.onrender.com']
